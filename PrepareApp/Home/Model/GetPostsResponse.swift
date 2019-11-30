@@ -19,7 +19,6 @@ struct GetPostsResponse {
         var posts = [Post]()
         for item in items {
             guard let post = Post(dict: item) else { continue }
-            print(post)
             posts.append(post)
         }
         self.posts = posts

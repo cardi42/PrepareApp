@@ -8,6 +8,10 @@
 
 import UIKit
 
+enum HomeConstants {
+    static let cellIdentifier = "PostCell"
+}
+
 class HomeController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
@@ -27,6 +31,7 @@ class HomeController: UIViewController {
     
     fileprivate func setupTableView() {
         tableView.tableFooterView = UIView(frame: .zero)
+        tableView.register(UINib(nibName: HomeConstants.cellIdentifier, bundle: nil), forCellReuseIdentifier: HomeConstants.cellIdentifier)
     }
     
     fileprivate func getPosts() {
@@ -43,7 +48,12 @@ extension HomeController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: HomeConstants.cellIdentifier) as? PostCell else {
+            return UITableViewCell()
+        }
+        let post = posts[indexPath.row]
+        cell.bindPost(with: post)
+        return cell
     }
 }
 
